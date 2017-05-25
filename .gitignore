@@ -1,0 +1,8 @@
+*.pyc
+*.log
+*.txt
+*.png
+*.sqlite3
+*.csv
+*.out
+*~
