@@ -37,8 +37,8 @@ def cameraRun():
         ctns, hi = cv2.findContours(binAry2.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         maxArea = 0
         maxCtn = None
-        #topCtns = heapq.nlargest(1, ctns, key=lambda x:cv2.contourArea(x))
-        topCtns = heapq.nlargest(1, ctns, key=lambda x:cv2.arcLength(x, True))
+        topCtns = heapq.nlargest(1, ctns, key=lambda x:cv2.contourArea(x))
+        #topCtns = heapq.nlargest(1, ctns, key=lambda x:cv2.arcLength(x, True))
         binAry3 = np.zeros(gray.shape, dtype=np.uint8)
         cv2.drawContours(binAry3, topCtns, -1, (255,255,255), -1)
         cv2.drawContours(frame.array, topCtns, -1, (255,255,255), -1)

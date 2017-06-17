@@ -6,6 +6,8 @@ gpio.setmode(gpio.BOARD)
 import threading
 
 from cameraControler import cameraRun
+from cameraControler import cameraClose
+
 class MotorCtrl:
     enablePin = 33
     aPin = 35
@@ -202,6 +204,7 @@ class Controler:
                     if self.cameraThread:
                         self.cameraThread.join()
                         self.cameraThread = None
+                        cameraClose()
             elif typ == 1 and number == 4 and value == 1 and self.status == 1:#stop
                 self.running = False
                 if self.servoThread:

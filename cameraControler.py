@@ -15,6 +15,11 @@ def baseWeightFun(x):
         return 1-abs(1-2.0*x/cols)
 base = [baseWeightFun(x) for x in range(cols)]
 
+def cameraClose():
+    global cap
+    if cap:
+        cap.close()
+        
 def cameraRun():
     global cap
     if cap == None:
@@ -49,27 +54,19 @@ def cameraRun():
         for i in xrange(len(binAry3), 0, -10):
             ysum = np.sum(binAry3[i-10:i], axis=0, dtype=np.int32)
             sect = [j for j, s in enumerate(ysum) if s > 1275]
-            if len(sect) == 0:
-                middle = -1
-            else:
+            if len(sect) > 0:
                 middle = np.sum(sect)/len(sect)
-            track.append(middle)
-        diff = float(track[0] - cols/2)
-        if abs(diff) < cols/12:
+                track.append((i, middle))
+        if len(track) == 0:
+            xdiff = -cols/2
+            ydiff = rows
+        else:
+            xdiff = float(track[-1][1] - cols/2)
+            ydiff = float(track[-1][0])
+        if abs(xdiff) < cols/12:
             yield 0
         else:
-            yield diff*90/cols
-#        trend = 0
-#        pre = 0
-#        count = 0
-#        for i, x in enumerate(track):
-#            if x < 0:
-#                continue
-#            count += 1
-#            if pre > 0:
-#                trend += (x-pre)*(3-float(i)/len(track))
-#            pre = x
-#        yield trend/count
+            yield xdiff*90*(320+ydiff)/(cols*480)
 
 
 if __name__ == '__main__':
